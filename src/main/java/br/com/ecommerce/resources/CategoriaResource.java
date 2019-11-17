@@ -20,7 +20,7 @@ public class CategoriaResource {
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 
-		Categoria categoria = categoriaService.buscar(id);
+		Categoria categoria = categoriaService.find(id);
 
 		return ResponseEntity.ok().body(categoria);
 	}
