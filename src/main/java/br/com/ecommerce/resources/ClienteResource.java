@@ -1,5 +1,6 @@
 package br.com.ecommerce.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.ecommerce.domain.Cliente;
 import br.com.ecommerce.dto.ClienteDTO;
+import br.com.ecommerce.dto.ClienteNewDTO;
 import br.com.ecommerce.services.ClienteService;
 
 @RestController
@@ -41,6 +44,19 @@ public class ClienteResource {
 		List<ClienteDTO> listaClienteDTO = listaCliente.stream().map(cliente -> new ClienteDTO(cliente)).collect(Collectors.toList());
 
 		return ResponseEntity.ok().body(listaClienteDTO);
+	}
+
+	@RequestMapping(method=RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO clienteNewDto) {
+
+		Cliente cliente = clienteService.fromDTO(clienteNewDto);
+
+		cliente = clienteService.insert(cliente);
+
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
+				path("/{id}").buildAndExpand(cliente.getId()).toUri();
+
+		return ResponseEntity.created(uri).build();
 	}
 
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
