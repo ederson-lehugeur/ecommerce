@@ -20,6 +20,7 @@ import br.com.ecommerce.domain.PagamentoComCartao;
 import br.com.ecommerce.domain.Pedido;
 import br.com.ecommerce.domain.Produto;
 import br.com.ecommerce.domain.enums.EstadoPagamento;
+import br.com.ecommerce.domain.enums.Perfil;
 import br.com.ecommerce.domain.enums.TipoCliente;
 import br.com.ecommerce.repositories.CategoriaRepository;
 import br.com.ecommerce.repositories.CidadeRepository;
@@ -123,18 +124,26 @@ public class DBService {
 		estadoRepository.saveAll(Arrays.asList(estado1, estado2));
 		cidadeRepository.saveAll(Arrays.asList(cidade1, cidade2, cidade3));
 
-		Cliente cliente1 = new Cliente(null, "Eddye", "eder.lehugeur@gmail.com", "36378912377",
+		Cliente cliente1 = new Cliente(null, "EddyeDev", "developer.eddye@gmail.com", "32478784084",
 				TipoCliente.PESSOAFISICA, bCryptPasswordEncoder.encode("123456"));
 
 		cliente1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
 
+		Cliente cliente2 = new Cliente(null, "Eddye", "eder.lehugeur@gmail.com", "76446046006",
+				TipoCliente.PESSOAFISICA, bCryptPasswordEncoder.encode("123456"));
+		cliente2.addPerfil(Perfil.ADMIN);
+
+		cliente2.getTelefones().addAll(Arrays.asList("84692954", "97862795"));
+
 		Endereco endereco1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cliente1, cidade1);
 		Endereco endereco2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cliente1, cidade2);
+		Endereco endereco3 = new Endereco(null, "Avenida Floriano", "2106", null, "Centro", "9283453", cliente2, cidade2);
 
 		cliente1.getEnderecos().addAll(Arrays.asList(endereco1, endereco2));
+		cliente2.getEnderecos().addAll(Arrays.asList(endereco3));
 
-		clienteRepository.saveAll(Arrays.asList(cliente1));
-		enderecoRepository.saveAll(Arrays.asList(endereco1, endereco2));
+		clienteRepository.saveAll(Arrays.asList(cliente1, cliente2));
+		enderecoRepository.saveAll(Arrays.asList(endereco1, endereco2, endereco3));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
