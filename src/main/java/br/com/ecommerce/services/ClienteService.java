@@ -15,11 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.ecommerce.domain.Cidade;
 import br.com.ecommerce.domain.Cliente;
 import br.com.ecommerce.domain.Endereco;
+import br.com.ecommerce.domain.enums.Perfil;
 import br.com.ecommerce.domain.enums.TipoCliente;
 import br.com.ecommerce.dto.ClienteDTO;
 import br.com.ecommerce.dto.ClienteNewDTO;
 import br.com.ecommerce.repositories.ClienteRepository;
 import br.com.ecommerce.repositories.EnderecoRepository;
+import br.com.ecommerce.security.UserSpringSecurity;
+import br.com.ecommerce.services.exception.AuthorizationException;
 import br.com.ecommerce.services.exception.DataIntegrityException;
 import br.com.ecommerce.services.exception.ObjectNotFoundException;
 
@@ -36,6 +39,12 @@ public class ClienteService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public Cliente find(Integer id) {
+		UserSpringSecurity user = UserService.authenticated();
+
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
 		Optional<Cliente> cliente = clienteRepository.findById(id);
 
 		return cliente.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! "
