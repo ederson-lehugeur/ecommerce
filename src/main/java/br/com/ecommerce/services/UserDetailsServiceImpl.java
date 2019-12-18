@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.ecommerce.domain.Cliente;
 import br.com.ecommerce.repositories.ClienteRepository;
-import br.com.ecommerce.security.UserSpringSecurity;
+import br.com.ecommerce.security.UserDetailsSpringSecurity;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throw new UsernameNotFoundException(email);
 		}
 
-		return new UserSpringSecurity(cliente.getId(), cliente.getEmail(), cliente.getSenha(), cliente.getPerfis());
+		return new UserDetailsSpringSecurity(cliente.getId(), cliente.getEmail(), cliente.getSenha(), cliente.getPerfis());
 	}
 
 }

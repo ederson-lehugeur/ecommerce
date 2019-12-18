@@ -21,7 +21,7 @@ import br.com.ecommerce.dto.ClienteDTO;
 import br.com.ecommerce.dto.ClienteNewDTO;
 import br.com.ecommerce.repositories.ClienteRepository;
 import br.com.ecommerce.repositories.EnderecoRepository;
-import br.com.ecommerce.security.UserSpringSecurity;
+import br.com.ecommerce.security.UserDetailsSpringSecurity;
 import br.com.ecommerce.services.exception.AuthorizationException;
 import br.com.ecommerce.services.exception.DataIntegrityException;
 import br.com.ecommerce.services.exception.ObjectNotFoundException;
@@ -39,7 +39,7 @@ public class ClienteService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public Cliente find(Integer id) {
-		UserSpringSecurity user = UserService.authenticated();
+		UserDetailsSpringSecurity user = UserService.authenticated();
 
 		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acesso negado");

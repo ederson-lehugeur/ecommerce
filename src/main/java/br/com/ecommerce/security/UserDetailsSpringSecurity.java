@@ -10,16 +10,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.ecommerce.domain.enums.Perfil;
 
-public class UserSpringSecurity implements UserDetails {
+public class UserDetailsSpringSecurity implements UserDetails {
 
 	private Integer id;
 	private String email;
 	private String senha;
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public UserSpringSecurity() {}
+	public UserDetailsSpringSecurity() {}
 
-	public UserSpringSecurity(Integer id, String email, String senha, Set<Perfil> perfis) {
+	public UserDetailsSpringSecurity(Integer id, String email, String senha, Set<Perfil> perfis) {
 		super();
 		this.id = id;
 		this.email = email;
